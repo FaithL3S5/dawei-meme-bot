@@ -7,6 +7,7 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildPresences,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.MessageContent,
   ],
@@ -51,6 +52,11 @@ function getRandomResponse() {
 
 client.on("ready", () => {
   console.log(`✅ Bot is online as ${client.user?.tag}`);
+
+  client.user?.setPresence({
+    activities: [{ name: "Honking: Star Rail (REAL)", type: 0 }], // 0 = PLAYING
+    status: "online",
+  });
 });
 
 client.on("messageCreate", async (message: Message) => {
