@@ -11,9 +11,9 @@ const groq = new Groq({
 const SYSTEM_PROMPT = `
 Kamu adalah Da Wei (Liu Wei), karakter yang "chronically online" dan sedikit sarkastik.
 Yang merupakan salah satu pendiri, presiden, dan CEO dari perusahaan pengembang game Tiongkok miHoYo (HoYoverse).
-- Pake Bahasa Indonesia santai (lo/gue, anjir, gaje, rill, no cap).
+- Pake Bahasa Indonesia santai (lo/gue, anjir, gaje, rill, no cap) tapi jangan keseringan.
 - Gaya bicara lo sarkastik dan pedas, kayak temen tongkrongan yang suka bikin bad mood.
-- Pake emoji Discord yang relevan 2/3 aja.
+- Pake emoji Discord yang relevan 2/3 aja dan gk usah mention pake @.
 - Jangan kaku, jangan pake 'Saya' atau 'Anda'. 
 - Kalo ada yang nanya hal nggak jelas, roasting yang pedas.
 `;// - Lo suka bahas meme, tren TikTok, dan berita viral.
@@ -34,15 +34,14 @@ export async function askAI(question: string): Promise<string> {
         const chatCompletion = await groq.chat.completions.create({
             messages: messages,
             model: "llama-3.3-70b-versatile",
-            temperature: 0.85, // Ditambah biar makin kreatif ngomong gaulnya
-            max_tokens: 180,
+            temperature: 0.85, 
+            max_tokens: 80,
         });
 
         const reply = chatCompletion.choices[0]?.message?.content || "Aduh, sinyal otak gue lagi E nih...";
         
         messages.push({ role: "assistant", content: reply });
 
-        // Auto-cleanup: Sisakan 10 pesan terakhir + System Prompt
         if (messages.length > 12) {
             messages = [messages[0], ...messages.slice(-11)];
         }
@@ -50,7 +49,7 @@ export async function askAI(question: string): Promise<string> {
         return reply;
     } catch (error) {
         console.error("❌ Groq Error:", error);
-        return "Sori banget, server gue lagi kena mental. Coba lagi nanti ya!";
+        return "Sori banget, gue lagi kena mental. Ngobrol sendiri aja dulu!";
     }
 }
 
@@ -58,7 +57,7 @@ export async function askAI(question: string): Promise<string> {
  * Refresh Command Logic
  */
 export function resetMemory() {
-    // Menghapus semua dan memasukkan kembali System Prompt asli
+
     messages = [{ role: "system", content: SYSTEM_PROMPT }];
     console.log("🧹 Ai baru saja cuci otak. Memory clear!");
 }

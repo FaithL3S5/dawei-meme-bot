@@ -40,7 +40,7 @@ client.on("messageCreate", async (message: Message) => {
   // --- NEW: Reset Command ---
     if (message.content.toLowerCase() === "!reset") {
         resetMemory();
-        await message.reply("Ingatanku sudah dihapus. Mari kita mulai dari awal lagi! ✨");
+        await message.reply("Ingatanku sudah reset. Mari kita mulai debat lagi! ✨");
         return;
     }
 
@@ -62,39 +62,3 @@ client.on("messageCreate", async (message: Message) => {
 });
 
 startBot();
-
-// old code for random responses
-// const responses = [
-//   "bacot",
-//   "minimal top up lah",
-//   "f2p banyak gaya",
-//   "bukan mainland minggir dulu",
-//   "minta diinjek dromas ni orang",
-//   "w masukin shackling prison lu ye",
-//   "noted",
-//   "dilarang winnie the pooh",
-//   "kena tariff bro",
-// ];
-
-// const cooldownMemory = new Set();
-// const COOLDOWN_LIMIT = 3;
-
-// function getRandomResponse() {
-//   const available = responses.filter((r) => !cooldownMemory.has(r));
-
-//   if (available.length === 0) {
-//     cooldownMemory.clear();
-//     available.push(...responses);
-//   }
-
-//   const response = available[Math.floor(Math.random() * available.length)];
-
-//   cooldownMemory.add(response);
-
-//   if (cooldownMemory.size > COOLDOWN_LIMIT) {
-//     const first = cooldownMemory.values().next().value;
-//     cooldownMemory.delete(first);
-//   }
-
-//   return response;
-// }
